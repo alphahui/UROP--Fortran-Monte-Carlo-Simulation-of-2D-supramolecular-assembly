@@ -1,0 +1,7 @@
+integer, parameter :: Side=60				
+integer, parameter :: NoOfAtoms=720   
+integer, parameter :: TimeInterval=1080		
+real, parameter :: MaxTime=10801, AtomsAddedPerCycle =5, TempIncPerCycle =0.5  
+real(kind=8), parameter::Tc=300   			
+real(kind=8), parameter fc=2E10		
+real(kind=8), parameter::kB=8.625E-5		
