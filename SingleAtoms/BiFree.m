@@ -6,9 +6,9 @@ clc;clear;
 MX=[1:400];                                                                %x-axis
 MY=[3^(1/2):3^(1/2):100*3^(1/2)];                                %y-axis
 
-startdata=1
-interval=1080
-finaldata=1081  
+startdata=1.2
+interval=180
+finaldata=181.2  
 % aviname='Brsix.avi';
 
 %read the .txt from the folder

@@ -4,8 +4,8 @@ module parameters
 
 	integer, parameter :: NoOfAtoms=180   !No of atoms to be added to simulation
 	integer, parameter :: SizeAsIsland=3
-	integer, parameter :: TimeInterval=1080	!number of interval for each txt output
-	real, parameter :: MaxTime=1081, AtomsAddedPerCycle =0.09, TempIncPerCycle =0.5  
+	integer, parameter :: TimeInterval=180	!number of interval for each txt output
+	real, parameter :: MaxTime=181, AtomsAddedPerCycle =0.09, TempIncPerCycle =0.5  
     !how many time will the time pass
 
 	real(kind=8), parameter::Ed=0.550			!diffusion energy

@@ -223,14 +223,11 @@ end do
         
     if (OutputWhenAtomsMoved==.true.) then
     if (t==MaxTime .OR. t == 1) then
-        write(filename,"(I8)") t
         call  PrintLog(AtomsAddedInt,AtomsAdded,Temp,t)
-        call PrintPlaneTXT(Side,BasePlane,filename)
+        call PrintPlaneTXT(Side,BasePlane,filename,SimuCycle)
     else if (AtomsMoved == .true.) then
-
-        write(filename,"(I8)") t
         call  PrintLog(AtomsAddedInt,AtomsAdded,Temp,t)
-        call PrintPlaneTXT(Side,BasePlane,filename)
+        call PrintPlaneTXT(Side,BasePlane,filename,SimuCycle)
 
     end if 
     end if 
@@ -244,7 +241,7 @@ end do
 
         
         NextTxtPrinted=NextTxtPrinted+TimeInterval
-        call PrintPlaneTXT(Side,BasePlane,filename,t)
+        call PrintPlaneTXT(Side,BasePlane,filename,t,SimuCycle)
 
     end if 
     end if

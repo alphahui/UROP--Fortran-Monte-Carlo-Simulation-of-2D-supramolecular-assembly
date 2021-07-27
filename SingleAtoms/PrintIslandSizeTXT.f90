@@ -1,7 +1,7 @@
 subroutine PrintIslandSizeTXT(AtomsAddedInt,IslandSize,LargestIslandSize,IslandSizeData,NoOfAtoms,TotSimuCycle,SimuCycle )
     implicit none
     integer :: AtomsAddedInt,n,k,i,LargestIslandSize,NoOfAtoms,TotSimuCycle,SimuCycle 
-    character(len=100):: filename
+    character(len=49):: filename
     integer, dimension(NoOfAtoms) :: IslandSize
     integer, dimension(LargestIslandSize) :: IslandSizeData
 
@@ -22,11 +22,12 @@ do n=1, LargestIslandSize
 end do
 
 
+write(filename,fmt='(A12,I0,A4)') 'SizesRawData', SimuCycle,'.txt'
+open(unit='900',file=filename)
 
-write(filename,fmt="(A31,I2,A17)") "./SimulationResult/Simiulation",SimuCycle,"/SizesRawData.txt"
-open(unit=90,file=filename,status="new")
 do i=1, LargestIslandSize
-write(90,'(100I5)') i, IslandSizeData(i)
+write(900,'(100I5)') i, IslandSizeData(i)
 end do
+
 
 end
