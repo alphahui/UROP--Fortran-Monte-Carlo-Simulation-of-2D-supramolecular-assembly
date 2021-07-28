@@ -1,12 +1,12 @@
 # UROP--Fortran-Monte-Carlo-Simulation-of-2D-supramolecular-assembly
 
 Goal:
-- do multiple simulation with 1 parameters
-  - create new file in separate folder for result of different simulation
-- do simulation with 1 atom at fc = 1 cycle 10^10 
 - temperature increase over cycle
 
 Finished:
+- do multiple simulation with 1 parameters
+  - create new file in separate folder for result of different simulation
+- do simulation with 1 atom at fc = 1 cycle 10^10 
 - output distribtution of number of islands of different sizes
 - output largest usland size at log
 - count number of atoms on each island
