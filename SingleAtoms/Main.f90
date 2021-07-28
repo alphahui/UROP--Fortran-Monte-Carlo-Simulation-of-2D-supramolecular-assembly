@@ -3,7 +3,7 @@ use parameters
 
 implicit none
 
-    character(len=16)  filename                                      !set file name
+    character(len=100)  filename                                      !set file name
     
     integer, dimension(Side,Side,3) :: BasePlane                    !initial plane of each time (1:0=empty 1=atom)
     integer :: i,j,n,nb,LargestIslandSize,OverallLargestIslandSize  !i,j: coordinate of plane n: dummy nb: number of bonding 
@@ -129,8 +129,12 @@ end do
         TransRate(nb)=fc*exp(-(Ed+(nb-1)*Eb)/(kB*Tc))
     end do 
     
+    
+write(filename,'(a,i0)') "mkdir Simulation_result\Simulation_",SimuCycle
+call system(filename)
     !Basic info of the simulation
-    open(900,file="Simulation.txt")
+    write(filename,"(a,i0,a)") "./Simulation_result/Simulation_",SimuCycle,"/Simulation.txt"
+    open(900,file=filename)
     write(900,*) "-----Setting of Simulation-----"
     write(900,*) "Side of plane=", Side,"Total Atoms=", NoOfAtoms
     If (AtomsAddedOverTime == .true.) then
@@ -223,10 +227,10 @@ end do
         
     if (OutputWhenAtomsMoved==.true.) then
     if (t==MaxTime .OR. t == 1) then
-        call  PrintLog(AtomsAddedInt,AtomsAdded,Temp,t)
+        call  PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle)
         call PrintPlaneTXT(Side,BasePlane,filename,SimuCycle)
     else if (AtomsMoved == .true.) then
-        call  PrintLog(AtomsAddedInt,AtomsAdded,Temp,t)
+        call  PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle)
         call PrintPlaneTXT(Side,BasePlane,filename,SimuCycle)
 
     end if 
@@ -258,7 +262,7 @@ end do
     !-------------------end of 1 Simulation--------------------------------
     print*, "end of simulation",SimuCycle
 
-    call FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize)
+    call FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize,SimuCycle)
     call PrintIslandSizeTXT(AtomsAddedInt,IslandSize,LargestIslandSize,IslandSizeData,NoOfAtoms,TotSimuCycle,SimuCycle)
     call RecordSimulationData(LargestIslandSize,IslandSizeData,NoOfAtoms,SimuCycle,FinalIslandSize)
 
@@ -271,7 +275,6 @@ end do
         end if 
     end if
 
-    print*, "largest, overall largest", LargestIslandSize, OverallLargestIslandSize
     
     SimuCycle = SimuCycle +1
 

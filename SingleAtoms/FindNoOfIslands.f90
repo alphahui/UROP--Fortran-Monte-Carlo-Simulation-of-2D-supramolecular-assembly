@@ -1,6 +1,7 @@
-subroutine FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize)
-    implicit none
-    integer :: i,j, p,q,x,y,m,Side,AtomsAddedInt,NoIsland,n,TimesToAdd,TagToAdd
+subroutine FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize,SimuCycle)
+    implicit none 
+    character(len=100) filename
+    integer :: i,j, p,q,x,y,m,Side,AtomsAddedInt,NoIsland,n,TimesToAdd,TagToAdd,SimuCycle
     integer :: TagToCheck,k,FinalTag,LargestIslandSize,NoOfIsland,SizeAsIsland,ScatterIslands
     integer, dimension(Side,Side,3) :: BasePlane 
     integer, dimension(Side,Side,1) :: IslandTag
@@ -159,8 +160,8 @@ do n=1, FinalTag
 
 end do
 ScatterIslands = FinalTag-NoOfIsland
-
-open(900,file="Simulation.txt")
+write(filename,"(a,i0,a)") "./Simulation_result/Simulation_",SimuCycle,"/Simulation.txt"
+open(900,file=filename)
 write(900,*) "-----Islands Result-----"
 write(900,*) 'Number of Islands=',NoOfIsland,"Largest Island",LargestIslandSize,"Atoms"
 write(900,*) 'Number of Scatter Islands', ScatterIslands
