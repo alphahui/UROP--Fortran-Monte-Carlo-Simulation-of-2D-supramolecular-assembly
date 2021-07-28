@@ -6,12 +6,12 @@ implicit none
     character(len=100)  filename                                      !set file name
     
     integer, dimension(Side,Side,3) :: BasePlane                    !initial plane of each time (1:0=empty 1=atom)
-    integer :: i,j,n,nb,LargestIslandSize,OverallLargestIslandSize  !i,j: coordinate of plane n: dummy nb: number of bonding 
-                                                                    !LargestIslandSize: largest island size in 1 simulation OverallLargestIslandSize: LargestIslandSize but after all simulation
+    integer :: i,j,n,nb,LargestIslandSize,OverallLargestIslandSize  !i,j: coordinate of plane n: dummy nb: number of bonding                                                                     !LargestIslandSize: largest island size in 1 simulation OverallLargestIslandSize: LargestIslandSize but after all simulation
     integer :: input,AtomsAddedInt,TotalBonding                     !input :record input, int of number of atoms added
-    integer t, SimuCycle, TotSimuCycle                              !t :cycle passed Simucycle: record current round of simulation  TotSimucycle : record the number of simulation wanted to do 
+    integer :: t, SimuCycle, TotSimuCycle                              !t :cycle passed Simucycle: record current round of simulation  TotSimucycle : record the number of simulation wanted to do 
+    integer :: ScatterIslands,NoOfIsland
     real(kind=16) :: r,Temp                                         !r :to store random number generated Temp : for temperature
-    real :: AtomsAdded                          
+    real(kind=8) :: AtomsAdded,AverageLargestIslandSize,AverageNumberOfIsland,AverageNumberOfScatterIsland                         
     real(kind=4):: TransRate(7)
     integer:: NextTxtPrinted                                        !NextTxtPrinted :to get the next cycle which prints the plane
     integer, dimension(NoOfAtoms) :: IslandSize                    !IslandSize: number of islands vary in size for 1 simulation before final process (not all islands are catergorzied)
@@ -106,7 +106,9 @@ TotSimuCycle =1
 do n=1, NoOfAtoms
     FinalIslandSize(n)=0
 end do
-
+AverageLargestIslandSize=0
+AverageNumberOfIsland=0
+AverageNumberOfScatterIsland=0  
 !-------------------Start of a simulation-----------------
 101 if (SimuCycle <= TotSimuCycle) then
 
@@ -262,10 +264,11 @@ call system(filename)
     !-------------------end of 1 Simulation--------------------------------
     print*, "end of simulation",SimuCycle
 
-    call FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize,SimuCycle)
+    call FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize,SimuCycle,ScatterIslands,NoOfIsland)
     call PrintIslandSizeTXT(AtomsAddedInt,IslandSize,LargestIslandSize,IslandSizeData,NoOfAtoms,TotSimuCycle,SimuCycle)
     call RecordSimulationData(LargestIslandSize,IslandSizeData,NoOfAtoms,SimuCycle,FinalIslandSize)
-
+    
+    !To compare largest island size in the round and the largest island of all simulation combined
     If (SimuCycle == 1) then
         OverallLargestIslandSize =LargestIslandSize
         
@@ -275,7 +278,10 @@ call system(filename)
         end if 
     end if
 
-    
+    !To calculate average island size of all simulation
+    AverageLargestIslandSize=(LargestIslandSize+AverageLargestIslandSize*(SimuCycle-1))/SimuCycle
+    AverageNumberOfIsland=(NoOfIsland+AverageNumberOfIsland*(SimuCycle-1))/SimuCycle
+    AverageNumberOfScatterIsland=(ScatterIslands+AverageNumberOfScatterIsland*(SimuCycle-1))/SimuCycle
     SimuCycle = SimuCycle +1
 
 
@@ -286,6 +292,6 @@ end if
 !------------------ end of all simulation -------------
 
 call PrintFinalSizesRawData(OverallLargestIslandSize,FinalIslandSize,NoOfAtoms)
-
+call PrintFinalSimulationLog(Side,NoOfAtoms,SizeAsIsland,TimeInterval,MaxTime,AtomsAddedPerCycle,TempIncPerCycle,Ed,Eb,Tc,fc,kB,TransRate,OverallLargestIslandSize,AverageLargestIslandSize,TotSimuCycle,AtomsAddedOverTime, TempIncreaseOverTime, OutputWhenAtomsMoved,AverageNumberOfIsland,AverageNumberOfScatterIsland  )
 
 end 

@@ -26,7 +26,7 @@ write(filename,fmt='(A,I0,A)') './Simulation_result/Simulation_', SimuCycle,'/Si
 open(unit=900,file=filename)
 
 do i=1, LargestIslandSize
-write(900,'(100I5)') i, IslandSizeData(i)
+write(900,'(100I10)') i, IslandSizeData(i)
 end do
 
 do i=1, LargestIslandSize

@@ -1,4 +1,4 @@
-subroutine FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize,SimuCycle)
+subroutine FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize,SimuCycle,ScatterIslands,NoOfIsland)
     implicit none 
     character(len=100) filename
     integer :: i,j, p,q,x,y,m,Side,AtomsAddedInt,NoIsland,n,TimesToAdd,TagToAdd,SimuCycle
