@@ -14,5 +14,5 @@
  
  -----Cycle Start-----
  -----Islands Result-----
- Number of Islands=          11 Largest Island         110 Atoms
+ Number of Islands=          12 Largest Island         262 Atoms
  Number of Scatter Islands          22

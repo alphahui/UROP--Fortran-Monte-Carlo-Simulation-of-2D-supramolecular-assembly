@@ -53,14 +53,13 @@ subroutine DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved)
                         
                         call random_number(r)
                        
-                        print*,"taglocation",TagLocation,"r",r
+ 
                         RandomLoc=int(r*TagLocation)+1
-                        print*, "RandomLoc",RandomLoc
-                        print*,'atoms to be moved',i,j
+                  
                         BasePlane(i,j,1)=0      !empty the atom location
                         i=NeigbourLocation(RandomLoc,1)
                         j=NeigbourLocation(RandomLoc,2)    !get x,y coordinate of the only empty spot
-                        print*,"atom moved to",i,j
+                
                         BasePlane(i,j,1)=1      !move the atom to the empty spot
                         MovedTag(i,j)=1
                         AtomsMoved = .true.
@@ -79,7 +78,5 @@ subroutine DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved)
     end do
     
     !print*, 'end of transition'
-    if (AtomsMoved==.true.)then
-        print*, "this trans ended-----"
-    end if
+
     end
