@@ -8,7 +8,7 @@ module parameters
 	real, parameter :: MaxTime=10801, AtomsAddedPerCycle =0.09, TempIncPerCycle =0.5  
     !how many time will the time pass
 
-	real(kind=8), parameter::Ed=0.550			!diffusion energy
+	real(kind=8), parameter::Ed=0.525			!diffusion energy
 	real(kind=8), parameter::Eb=0.055			!bonding energy
 	real(kind=8), parameter::Tc=300   			!temp.
 
