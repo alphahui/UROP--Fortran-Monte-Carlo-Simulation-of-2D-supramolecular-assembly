@@ -4,12 +4,13 @@ subroutine DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved)
     integer :: AtomsAddedInt,x,y,m
     integer, dimension(Side,Side,3) :: BasePlane    
     integer, dimension(Side,Side) ::MovedTag
-    real (kind=4) :: r,RandomLoc
+    real:: r
     real (kind=4), dimension(7) :: TransRate
     logical :: MovedOrNot
     real, dimension(7,2) :: NeigbourLocation  
-    integer(kind=4) ::n,nb,TagLocation
+    integer(kind=4) ::n,nb,TagLocation,RandomLoc
     logical :: AtomsMoved
+    
     
     call random_seed
     AtomsMoved = .false.
@@ -21,7 +22,7 @@ subroutine DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved)
     
     
     do n=1, AtomsAddedInt
-        
+            
     1000 call random_number(r)
             r=r*Side+1
             i=int(r)
@@ -49,17 +50,21 @@ subroutine DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved)
                         MovedTag(i,j)=1
                         AtomsMoved = .true.
                         else 
-                    
+                        
                         call random_number(r)
+                       
+                        print*,"taglocation",TagLocation,"r",r
                         RandomLoc=int(r*TagLocation)+1
-                        !print*, "RandomLoc",RandomLoc
-                        !print*,'atoms to be moved',i,j
+                        print*, "RandomLoc",RandomLoc
+                        print*,'atoms to be moved',i,j
                         BasePlane(i,j,1)=0      !empty the atom location
                         i=NeigbourLocation(RandomLoc,1)
                         j=NeigbourLocation(RandomLoc,2)    !get x,y coordinate of the only empty spot
+                        print*,"atom moved to",i,j
                         BasePlane(i,j,1)=1      !move the atom to the empty spot
                         MovedTag(i,j)=1
                         AtomsMoved = .true.
+                        
                         end if
                     else
                         MovedTag(i,j)=1 
@@ -74,5 +79,7 @@ subroutine DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved)
     end do
     
     !print*, 'end of transition'
-    
+    if (AtomsMoved==.true.)then
+        print*, "this trans ended-----"
+    end if
     end

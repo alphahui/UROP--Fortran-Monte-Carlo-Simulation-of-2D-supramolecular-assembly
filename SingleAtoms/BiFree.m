@@ -6,19 +6,23 @@ clc;clear;
 MX=[1:400];                                                                %x-axis
 MY=[3^(1/2):3^(1/2):100*3^(1/2)];                                %y-axis
 
-startdata=1.2
-interval=180
-finaldata=181.2  
+startdata=1
+interval=1
+finaldata=10000000
+fileLocation ='./Simulation_result/Simulation_1'
 % aviname='Brsix.avi';
 
 %read the .txt from the folder
 for i=startdata:interval:finaldata;
-load([num2str(i),'.txt']);
+    if isfile([fileLocation,num2str(i),'.txt'])
+    load([fileLocation,num2str(i),'.txt']);
+    end
 end
 
 %change .txt into image and save as .jpg
 for i=startdata:interval:finaldata;
-str=['X',num2str(i)];
+    if isfile([fileLocation,num2str(i),'.txt'])
+        str=['X',num2str(i)];
 A=eval(str);
     
 [m,n]=size(A);                                                                      %calculate the size of matrix
@@ -69,9 +73,11 @@ set (gcf,'Position',[100,100,1500,700]);                    %300,100 is the ordi
 set(gca,'LooseInset',get(gca,'TightInset'))                 %Tight in the page
 
 set (gcf,'PaperPositionMode','auto')                       %for save, otherwise save image will change the size
-print('-djpeg',num2str(i))
+print('-djpeg',[fileLocation,num2str(i)])
 
 close all
+    end
+
 
 end
 

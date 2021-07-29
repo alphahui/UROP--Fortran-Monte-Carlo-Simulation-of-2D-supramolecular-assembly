@@ -13,17 +13,18 @@ implicit none
     real(kind=16) :: r,Temp                                         !r :to store random number generated Temp : for temperature
     real(kind=8) :: AtomsAdded,AverageLargestIslandSize,AverageNumberOfIsland,AverageNumberOfScatterIsland                         
     real(kind=4):: TransRate(7)
-    integer:: NextTxtPrinted                                        !NextTxtPrinted :to get the next cycle which prints the plane
+    integer:: NextTxtPrinted                                     !NextTxtPrinted :to get the next cycle which prints the plane
     integer, dimension(NoOfAtoms) :: IslandSize                    !IslandSize: number of islands vary in size for 1 simulation before final process (not all islands are catergorzied)
     logical :: AtomsMoved                                           !AtomsMoved: record rather atoms are moved in the cycle
     integer, dimension(NoOfAtoms) :: IslandSizeData                 !IslandSizeData: proccesed IslandSize Data 
     real, dimension(NoOfAtoms) :: FinalIslandSize                   !FinalIslandSize: IslandSize for all simulation combined
-    integer:: TempRecordMovedCycle(MaxTime)
+    integer:: TempRecordMovedCycle(CycleRecord)
     
     call RANDOM_SEED  
 !----------------------------------------------------------------------------------------
 !---------------initialization------------------------------
 !check rather number of atoms are normal 
+   
     if (NoOfAtoms == 0) then
     print*, "There is no atoms to be added"
     stop
@@ -93,7 +94,7 @@ implicit none
     end if  
 
     
-        
+       
 !Default settings
 102 AtomsAddedOverTime= .false.
 TempIncreaseOverTime= .false.
@@ -107,8 +108,8 @@ TotSimuCycle =1
 do n=1, NoOfAtoms
     FinalIslandSize(n)=0
 end do
-do n=1, MaxTime
-   TempRecordMovedCycle=0
+do n=1, CycleRecord
+   TempRecordMovedCycle(n)=0
 end do
 AverageLargestIslandSize=0
 AverageNumberOfIsland=0
@@ -125,7 +126,7 @@ AverageNumberOfScatterIsland=0
                 
             end do
         end do
-
+       
     t=1
     NextTxtPrinted=1   
     AtomsAdded =0
@@ -136,10 +137,11 @@ AverageNumberOfScatterIsland=0
     do nb=1, 7
         TransRate(nb)=fc*exp(-(Ed+(nb-1)*Eb)/(kB*Tc))
     end do 
-    
+  
     
 write(filename,'(a,i0)') "mkdir Simulation_result\Simulation_",SimuCycle
 call system(filename)
+print*,"5"
     !Basic info of the simulation
     write(filename,"(a,i0,a)") "./Simulation_result/Simulation_",SimuCycle,"/Simulation.txt"
     open(900,file=filename)
@@ -222,7 +224,7 @@ call system(filename)
     if (t >= 1) then
     
     if (AtomsAddedInt>0) then
-    
+        call random_seed
     call DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved)
     else
     end if
@@ -246,7 +248,7 @@ call system(filename)
         call PrintPlaneTXT(Side,BasePlane,filename,t,SimuCycle)
            
         TempRecordMovedCycle(TimeMove)= t
-        print*,"moved", TimeMove,TempRecordMovedCycle(TimeMove),t
+        !print*,"moved", TimeMove,TempRecordMovedCycle(TimeMove),t
         TimeMove =TimeMove+1
         
     end if 
@@ -284,7 +286,7 @@ call system(filename)
     call RecordSimulationData(LargestIslandSize,IslandSizeData,NoOfAtoms,SimuCycle,FinalIslandSize)
     
     if(OutputWhenAtomsMoved==.true.) then
-        call PrintMoveTimeRawData(TempRecordMovedCycle,MaxTime,t,SimuCycle,TimeMove)
+        call PrintMoveTimeRawData(TempRecordMovedCycle,CycleRecord,t,SimuCycle,TimeMove)
     end if
     
     !To compare largest island size in the round and the largest island of all simulation combined

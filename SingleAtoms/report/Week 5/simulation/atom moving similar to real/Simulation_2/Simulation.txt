@@ -1,0 +1,174 @@
+ -----Setting of Simulation-----
+ Side of plane=           5 Total Atoms=           2
+ Atoms are all added at once
+ Initial temperature =   300.000000000000      Diffusion energy=
+  0.500000000000000      Bonding energy=  5.499999970197678E-002
+ Transition rate:
+  4.0535571E-04
+  4.8383612E-05
+  5.7751104E-06
+  6.8932223E-07
+  8.2278106E-08
+  9.8207869E-09
+  1.1722177E-09
+ 
+ -----Cycle Start-----
+ Cycle=           1 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=      110082 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=      115990 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=      121884 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=      261154 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=      290315 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=      320188 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=      356217 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=      460212 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=      476400 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=      515036 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=      573996 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=      616491 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=      733559 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     1133886 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     1421683 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     1430909 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     1439751 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     1448666 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     1795996 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     1848328 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     1884153 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     1934930 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     2001839 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     2255844 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     4166784 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     5111136 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     5361008 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     5370161 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     5651294 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     5917618 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     5961200 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     6200474 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     6488047 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     6859743 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     7148354 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     7847854 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     7864440 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     8129620 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     8347733 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     8356769 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     8365921 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     8375066 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     8383835 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     8922864 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     8966304 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     9207664 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     9484908 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     9545957 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     9589465 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=     9825253 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ Cycle=    10000000 Atoms Added=            2 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ 
+ -----Islands Result-----
+ Number of Islands=           1 Largest Island           2 Atoms
+ Number of Scatter Islands           0

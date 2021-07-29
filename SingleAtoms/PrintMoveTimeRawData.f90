@@ -1,8 +1,8 @@
-subroutine PrintMoveTimeRawData(TempRecordMovedCycle,MaxTime,t,SimuCycle,TimeMove)
+subroutine PrintMoveTimeRawData(TempRecordMovedCycle,CycleRecord,t,SimuCycle,TimeMove)
     implicit none
     
-    integer :: t, SimuCycle,j,MaxTime,TimeMove,n
-    integer, dimension(MaxTime):: TempRecordMovedCycle
+    integer :: t, SimuCycle,j,CycleRecord,TimeMove,n
+    integer, dimension(CycleRecord):: TempRecordMovedCycle
     character(len=100) :: file
     integer,allocatable:: RecordMovedCycle(:)
     integer,allocatable:: RecordMovedIntervalCycle(:)
