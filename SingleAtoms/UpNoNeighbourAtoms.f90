@@ -1,8 +1,8 @@
 !this update the number of neighbour atoms of each atom for determining the individual transition rate and total
 subroutine UpNoNeiAtoms(Side,BasePlane,i,j,TransRate,MovedOrNot,NeigbourLocation,TagLocation,nb)  
 implicit none
-    integer :: i,j, p,q,Side
-    integer(kind=4) ::n,nb,TagLocation
+    integer :: i,j, p,q,Side,n
+    integer(kind=4) ::nb,TagLocation
     integer, dimension(Side,Side,3) :: BasePlane     
     integer :: ArrayOfX(6)=(/-1,-1,+0,+1,+1,+0/)    !to get x coordinate of neighbour atoms
     integer :: ArrayOfY(6)=(/+0,+1,+1,+0,-1,-1/)    !to get y coordinate of neighbour atoms

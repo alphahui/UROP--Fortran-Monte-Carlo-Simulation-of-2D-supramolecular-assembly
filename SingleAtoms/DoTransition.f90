@@ -11,7 +11,7 @@ subroutine DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved)
     integer(kind=4) ::n,nb,TagLocation
     logical :: AtomsMoved
     
-    call RANDOM_SEED
+    call random_seed
     AtomsMoved = .false.
     do i=1,Side
         do j=1,Side

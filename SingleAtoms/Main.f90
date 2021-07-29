@@ -7,7 +7,7 @@ implicit none
     
     integer, dimension(Side,Side,3) :: BasePlane                    !initial plane of each time (1:0=empty 1=atom)
     integer :: i,j,n,nb,LargestIslandSize,OverallLargestIslandSize  !i,j: coordinate of plane n: dummy nb: number of bonding                                                                     !LargestIslandSize: largest island size in 1 simulation OverallLargestIslandSize: LargestIslandSize but after all simulation
-    integer :: input,AtomsAddedInt,TotalBonding                     !input :record input, int of number of atoms added
+    integer :: input,AtomsAddedInt,TotalBonding,TimeMove                     !input :record input, int of number of atoms added
     integer :: t, SimuCycle, TotSimuCycle                              !t :cycle passed Simucycle: record current round of simulation  TotSimucycle : record the number of simulation wanted to do 
     integer :: ScatterIslands,NoOfIsland
     real(kind=16) :: r,Temp                                         !r :to store random number generated Temp : for temperature
@@ -18,7 +18,8 @@ implicit none
     logical :: AtomsMoved                                           !AtomsMoved: record rather atoms are moved in the cycle
     integer, dimension(NoOfAtoms) :: IslandSizeData                 !IslandSizeData: proccesed IslandSize Data 
     real, dimension(NoOfAtoms) :: FinalIslandSize                   !FinalIslandSize: IslandSize for all simulation combined
-
+    integer:: TempRecordMovedCycle(MaxTime)
+    
     call RANDOM_SEED  
 !----------------------------------------------------------------------------------------
 !---------------initialization------------------------------
@@ -44,7 +45,7 @@ implicit none
     print*, "What are the settings? (1 for Default which can be edit in Main.F90, 2 for customization)"
 300 read*, input
     If  (input ==1) then 
-        goto 100 
+        goto 102 
     else if (input ==2) then
         goto 200
     else
@@ -94,7 +95,7 @@ implicit none
     
         
 !Default settings
-AtomsAddedOverTime= .false.
+102 AtomsAddedOverTime= .false.
 TempIncreaseOverTime= .false.
 OutputWhenAtomsMoved=.false.
 TotSimuCycle =1
@@ -106,9 +107,13 @@ TotSimuCycle =1
 do n=1, NoOfAtoms
     FinalIslandSize(n)=0
 end do
+do n=1, MaxTime
+   TempRecordMovedCycle=0
+end do
 AverageLargestIslandSize=0
 AverageNumberOfIsland=0
 AverageNumberOfScatterIsland=0  
+
 !-------------------Start of a simulation-----------------
 101 if (SimuCycle <= TotSimuCycle) then
 
@@ -126,7 +131,8 @@ AverageNumberOfScatterIsland=0
     AtomsAdded =0
     Temp=Tc
     AtomsAddedInt=0
-
+    TimeMove=1
+    AtomsMoved=.false.
     do nb=1, 7
         TransRate(nb)=fc*exp(-(Ed+(nb-1)*Eb)/(kB*Tc))
     end do 
@@ -161,6 +167,7 @@ call system(filename)
     print*, TransRate(nb)
     end do 
 
+   
     10 if (t<= MaxTime) then !determine whether we have passed cycle limit
     !Calculate transition rate of different number of bonding
 
@@ -184,7 +191,7 @@ call system(filename)
                     if (BasePlane(i,j,1) == 0) then
                         BasePlane(i,j,1) = 1
                         AtomsAdded = AtomsAdded + 1
-
+                        
                     else
                         goto 2
                     end if
@@ -194,7 +201,7 @@ call system(filename)
                 end if 
             end do
             AtomsAddedInt= AtomsAdded
-            
+        
         else if  (AtomsAddedOverTime == .true.) then  !Atoms added one by one
             if (AtomsAdded < NoOfAtoms ) then
         !Add atoms per cycle
@@ -204,42 +211,50 @@ call system(filename)
             else 
             end if 
         end if    !done adding all atoms
-        
-        
+    
     !Get number of bonding of each atom ,total bonding, individual transrate and total transrate
 
 
     !Get the time to start the transition
         
 
-        
     !do transisiton
-    if (t>1) then
+    if (t >= 1) then
+    
     if (AtomsAddedInt>0) then
-        !print*, "doing transition"
+    
     call DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved)
     else
     end if
     end if 
 
-
+  
 
     !------------------output------------------
     !create txt
         
-    if (OutputWhenAtomsMoved==.true.) then
+    if (OutputWhenAtomsMoved == .true.) then
+      
     if (t==MaxTime .OR. t == 1) then
-        call  PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle)
-        call PrintPlaneTXT(Side,BasePlane,filename,SimuCycle)
-    else if (AtomsMoved == .true.) then
-        call  PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle)
-        call PrintPlaneTXT(Side,BasePlane,filename,SimuCycle)
 
+        call PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle)
+        call PrintPlaneTXT(Side,BasePlane,filename,t,SimuCycle)
+    end if
+    if (AtomsMoved == .true.) then
+
+        call PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle)
+        call PrintPlaneTXT(Side,BasePlane,filename,t,SimuCycle)
+           
+        TempRecordMovedCycle(TimeMove)= t
+        print*,"moved", TimeMove,TempRecordMovedCycle(TimeMove),t
+        TimeMove =TimeMove+1
+        
     end if 
+
     end if 
     !call  PrintLog(AtomsAddedInt,AtomsAdded,Temp,t)
-        print*, 'cycle=',t,' rendered'
-
+        print"(a,i0,a,i0,a)", "simulation= ",SimuCycle,'  cycle= ',t,'  rendered'
+    
 
 
     if (OutputWhenAtomsMoved==.false.) then
@@ -267,6 +282,10 @@ call system(filename)
     call FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize,SimuCycle,ScatterIslands,NoOfIsland)
     call PrintIslandSizeTXT(AtomsAddedInt,IslandSize,LargestIslandSize,IslandSizeData,NoOfAtoms,TotSimuCycle,SimuCycle)
     call RecordSimulationData(LargestIslandSize,IslandSizeData,NoOfAtoms,SimuCycle,FinalIslandSize)
+    
+    if(OutputWhenAtomsMoved==.true.) then
+        call PrintMoveTimeRawData(TempRecordMovedCycle,MaxTime,t,SimuCycle,TimeMove)
+    end if
     
     !To compare largest island size in the round and the largest island of all simulation combined
     If (SimuCycle == 1) then
