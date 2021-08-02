@@ -1,17 +1,19 @@
 !this update the number of neighbour atoms of each atom for determining the individual transition rate and total
-subroutine UpNoNeiAtoms(Side,BasePlane,i,j,TransRate,MovedOrNot,NeigbourLocation,TagLocation,nb)  
+subroutine UpNoNeiAtoms(Side,BasePlane,i,j,TransRate,MovedOrNot,NeigbourLocation,TagLocation,nb,lowlimit,uplimit   )  
 implicit none
     integer :: i,j, p,q,Side,n
     integer(kind=4) ::nb,TagLocation
     integer, dimension(Side,Side,3) :: BasePlane     
     integer :: ArrayOfX(6)=(/-1,-1,+0,+1,+1,+0/)    !to get x coordinate of neighbour atoms
     integer :: ArrayOfY(6)=(/+0,+1,+1,+0,-1,-1/)    !to get y coordinate of neighbour atoms
-    real(kind=4):: r
+    real:: r
     real (kind=4), dimension(7) :: TransRate
     logical :: MovedOrNot
     real, dimension(7,2) :: NeigbourLocation  
-    
-    call RANDOM_SEED
+
+
+    real(kind=8)::lowlimit,uplimit    
+    call random_seed
 !------start loop--------
     nb=1
     MovedOrNot=.false.
@@ -40,15 +42,16 @@ implicit none
             !update transition rate of the atom and total trans rate
             !print*, 'nb',nb
             !print*, BasePlane(i,j,3), TotalTrans
-
+            
             call random_number(r)
-            !print*, 'r', r,"TransRate(nb)",TransRate(nb)
 
+          
             if (r<TransRate(nb))then
                 MovedOrNot=.true.
             else if (r>TransRate(nb)) then
                 MovedOrNot=.false.
             end if 
+
             !print*,"MovedOrNot",MovedOrNot
 !function for calculating boundary
 contains

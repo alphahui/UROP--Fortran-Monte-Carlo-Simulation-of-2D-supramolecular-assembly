@@ -1,18 +1,19 @@
-subroutine DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved)
+subroutine DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved,lowlimit,uplimit   )
     implicit none
-    integer :: i,j,Side
+    integer :: i,j,Side,RandomNumberToUse
     integer :: AtomsAddedInt,x,y,m
     integer, dimension(Side,Side,3) :: BasePlane    
     integer, dimension(Side,Side) ::MovedTag
-    real:: r
+    real:: randomArray(AtomsAddedInt)
     real (kind=4), dimension(7) :: TransRate
     logical :: MovedOrNot
     real, dimension(7,2) :: NeigbourLocation  
     integer(kind=4) ::n,nb,TagLocation,RandomLoc
+    real(kind=8)::lowlimit,uplimit,r 
     logical :: AtomsMoved
-    
-    
-    call random_seed
+
+   
+
     AtomsMoved = .false.
     do i=1,Side
         do j=1,Side
@@ -20,20 +21,24 @@ subroutine DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved)
         end do
     end do
     
+    call random_number(r)
+    print*,r
     
     do n=1, AtomsAddedInt
             
     1000 call random_number(r)
+   
             r=r*Side+1
             i=int(r)
         call random_number(r)
+        
             r=r*Side+1
             j=int(r) 
             
             if (MovedTag(i,j)==0) then
                 if(BasePlane(i,j,1)==1) then
-                   
-                    call UpNoNeiAtoms(Side,BasePlane,i,j,TransRate,MovedOrNot,NeigbourLocation,TagLocation,nb)   
+                       
+                    call UpNoNeiAtoms(Side,BasePlane,i,j,TransRate,MovedOrNot,NeigbourLocation,TagLocation,nb,lowlimit,uplimit)   
                 !get info on the atoms neigbour number of atoms and space and neigbour trans rate
                     
                     if (MovedOrNot==.true.)then
@@ -52,10 +57,10 @@ subroutine DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved)
                         else 
                         
                         call random_number(r)
-                       
+                      
  
                         RandomLoc=int(r*TagLocation)+1
-                  
+                            !print*,RandomLoc
                         BasePlane(i,j,1)=0      !empty the atom location
                         i=NeigbourLocation(RandomLoc,1)
                         j=NeigbourLocation(RandomLoc,2)    !get x,y coordinate of the only empty spot
@@ -76,7 +81,7 @@ subroutine DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved)
             end if
                !print*, "atoms",n,'moved'
     end do
-    
-    !print*, 'end of transition'
-
+    If (AtomsMoved==.true.)then
+    print*, 'end of transition' 
+    end if 
     end

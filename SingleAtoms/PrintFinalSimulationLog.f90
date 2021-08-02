@@ -1,7 +1,7 @@
 subroutine PrintFinalSimulationLog(Side,NoOfAtoms,SizeAsIsland,TimeInterval,MaxTime,AtomsAddedPerCycle,TempIncPerCycle,Ed,Eb,Tc,fc,kB,TransRate,OverallLargestIslandSize,AverageLargestIslandSize,TotSimuCycle,AtomsAddedOverTime, TempIncreaseOverTime, OutputWhenAtomsMoved,AverageNumberOfIsland,AverageNumberOfScatterIsland  )
     implicit none
-    integer :: Side,NoOfAtoms,SizeAsIsland,TimeInterval,OverallLargestIslandSize,TotSimuCycle,n
-    real :: MaxTime, AtomsAddedPerCycle,TempIncPerCycle
+    integer :: Side,NoOfAtoms,SizeAsIsland,TimeInterval,OverallLargestIslandSize,TotSimuCycle,n, MaxTime
+    real :: AtomsAddedPerCycle,TempIncPerCycle
     real(kind=8):: Ed,Eb,Tc,fc,kB,AverageLargestIslandSize,AverageNumberOfIsland,AverageNumberOfScatterIsland	
     real(kind=4):: TransRate(7)	
     logical :: AtomsAddedOverTime, TempIncreaseOverTime, OutputWhenAtomsMoved
@@ -9,8 +9,8 @@ subroutine PrintFinalSimulationLog(Side,NoOfAtoms,SizeAsIsland,TimeInterval,MaxT
 
     open(unit=90,file= "./Simulation_result/FinalSimulationLog.txt")
     write(90,*)"-----------Basic parameters---------------"
-    write(90,fmt="(a,i0,a,i0,a,i0)") "Side=",Side,"NoOfAtoms=",NoOfAtoms,"TotSimucycled=",TotSimucycle
-    write(90,fmt="(a,i0,a,i0,a,i0)") "TMaxTime=",MaxTime,"TimeInterval=", TimeInterval,"SizeAsIsland=",SizeAsIsland
+    write(90,fmt="(a,i0,a,i0,a,i0)") "Side= ",Side,"  NoOfAtoms= ",NoOfAtoms,"  TotSimucycled= ",TotSimucycle
+    write(90,fmt="(a,i0,a,i0,a,i0)") "MaxTime= ",MaxTime,"  TimeInterval= ", TimeInterval,"  SizeAsIsland= ",SizeAsIsland
     write(90,*)
     write(90,*)"-----------parameters---------------"
     write(90,*)"Ed=",Ed,"Eb=",Eb

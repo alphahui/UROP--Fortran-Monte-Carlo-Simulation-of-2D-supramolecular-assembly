@@ -51,7 +51,9 @@
 		<File RelativePath=".\AddAtoms.f90"/>
 		<File RelativePath=".\DetermineFinalLocToMove.f90"/>
 		<File RelativePath=".\DoTransition.f90"/>
+		<File RelativePath=".\FindAtomToBeMoved.f90"/>
 		<File RelativePath=".\FindNoOfIslands.f90"/>
+		<File RelativePath=".\GetTransRate.f90"/>
 		<File RelativePath=".\Main.f90"/>
 		<File RelativePath=".\parameters.f90"/>
 		<File RelativePath=".\PrintArrayTest.f90"/>

@@ -5,13 +5,13 @@ implicit none
 
     character(len=100)  filename                                      !set file name
     
-    integer, dimension(Side,Side,3) :: BasePlane                    !initial plane of each time (1:0=empty 1=atom)
+    integer, dimension(Side,Side,3) :: BasePlane                    !initial plane of each time (1:0=empty 1=atom 2: atom tag)
     integer :: i,j,n,nb,LargestIslandSize,OverallLargestIslandSize  !i,j: coordinate of plane n: dummy nb: number of bonding                                                                     !LargestIslandSize: largest island size in 1 simulation OverallLargestIslandSize: LargestIslandSize but after all simulation
     integer :: input,AtomsAddedInt,TotalBonding,TimeMove                     !input :record input, int of number of atoms added
-    integer :: t, SimuCycle, TotSimuCycle                              !t :cycle passed Simucycle: record current round of simulation  TotSimucycle : record the number of simulation wanted to do 
+    integer :: t, SimuCycle, TotSimuCycle,MoveX,MoveY                              !t :cycle passed Simucycle: record current round of simulation  TotSimucycle : record the number of simulation wanted to do 
     integer :: ScatterIslands,NoOfIsland
-    real(kind=16) :: r,Temp                                         !r :to store random number generated Temp : for temperature
-    real(kind=8) :: AtomsAdded,AverageLargestIslandSize,AverageNumberOfIsland,AverageNumberOfScatterIsland                         
+    real(kind=16) :: Temp                                         !r :to store random number generated Temp : for temperature
+    real(kind=8) :: AtomsAdded,AverageLargestIslandSize,AverageNumberOfIsland,AverageNumberOfScatterIsland,r,time,TransToMeet                       
     real(kind=4):: TransRate(7)
     integer:: NextTxtPrinted                                     !NextTxtPrinted :to get the next cycle which prints the plane
     integer, dimension(NoOfAtoms) :: IslandSize                    !IslandSize: number of islands vary in size for 1 simulation before final process (not all islands are catergorzied)
@@ -19,8 +19,11 @@ implicit none
     integer, dimension(NoOfAtoms) :: IslandSizeData                 !IslandSizeData: proccesed IslandSize Data 
     real, dimension(NoOfAtoms) :: FinalIslandSize                   !FinalIslandSize: IslandSize for all simulation combined
     integer:: TempRecordMovedCycle(CycleRecord)
+    real, dimension(NoOfAtoms,2) :: AtomsTagTransRate                 ! dimension 1: atom tag from BasePlane 2 1: number of bonding 2: trasrate
+    real :: TotalTrans
     
-    call RANDOM_SEED  
+    call random_seed 
+    
 !----------------------------------------------------------------------------------------
 !---------------initialization------------------------------
 !check rather number of atoms are normal 
@@ -115,9 +118,10 @@ AverageLargestIslandSize=0
 AverageNumberOfIsland=0
 AverageNumberOfScatterIsland=0  
 
+
 !-------------------Start of a simulation-----------------
 101 if (SimuCycle <= TotSimuCycle) then
-
+    
 !initialize array to all empty
     do i=1, Side
             do j=1, Side
@@ -125,7 +129,13 @@ AverageNumberOfScatterIsland=0
                 BasePlane(i,j,1)=0
                 
             end do
-        end do
+    end do
+
+    do nb=1, 7
+        TransRate(nb)=fc*exp(-(Ed+(nb-1)*Eb)/(kB*Tc))
+        print*,TransRate(nb)
+    end do 
+ 
        
     t=1
     NextTxtPrinted=1   
@@ -134,10 +144,8 @@ AverageNumberOfScatterIsland=0
     AtomsAddedInt=0
     TimeMove=1
     AtomsMoved=.false.
-    do nb=1, 7
-        TransRate(nb)=fc*exp(-(Ed+(nb-1)*Eb)/(kB*Tc))
-    end do 
-  
+    time =0
+   
     
 write(filename,'(a,i0)') "mkdir Simulation_result\Simulation_",SimuCycle
 call system(filename)
@@ -165,24 +173,21 @@ print*,"5"
     !check number of neigbour atom, each atom rather attmept transition with transrate, random location jump
     !--------------------cycle----------------------------------------------
 
-    do nb=1, 7
-    print*, TransRate(nb)
-    end do 
 
    
     10 if (t<= MaxTime) then !determine whether we have passed cycle limit
+        if (time < t) then
     !Calculate transition rate of different number of bonding
-
+ 
     !possibility to move
     !Add Atoms  
+    if (AtomsAddedInt < NoOfAtoms) then
         if  (AtomsAddedOverTime == .false.) then    !setting for atoms to all be added at once
         !add the molecules to the BasePlane and ResultPlane all at once
-
             do while (AtomsAdded < NoOfAtoms)
                 
-                
-                
                 2 call random_number(r)
+                
                 r=r*Side+1
                 i=int(r)
                 call random_number(r)
@@ -201,34 +206,42 @@ print*,"5"
                     !write(*,*) "3"
                     goto 2   
                 end if 
+
             end do
+
             AtomsAddedInt= AtomsAdded
+            call GetTransRate(Side,BasePlane,TransRate,AtomsTagTransRate,TotalTrans )
         
         else if  (AtomsAddedOverTime == .true.) then  !Atoms added one by one
+
             if (AtomsAdded < NoOfAtoms ) then
         !Add atoms per cycle
-                !print*, 'atom added per cycle',AtomsAddedInt
                 call AddAtoms(Side,AtomsAdded,AtomsAddedPerCycle,AtomsAddedInt,BasePlane,NoOfAtoms)
-    
-            else 
+
             end if 
+
+            call GetTransRate(Side,BasePlane,TransRate,AtomsTagTransRate,TotalTrans )
+
         end if    !done adding all atoms
-    
+    end if
     !Get number of bonding of each atom ,total bonding, individual transrate and total transrate
 
 
     !Get the time to start the transition
+    12 call random_number(r)
+    if (r<=lowlimit .or. r>=uplimit) goto 12   
+    time=time+(log(r))/(-TotalTrans)   
+    call random_number(r)
+    TransToMeet= r*TotalTrans    
         
-
     !do transisiton
-    if (t >= 1) then
     
     if (AtomsAddedInt>0) then
-        call random_seed
-    call DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved)
-    else
+        call FindAtomToBeMoved(BasePlane,Side,AtomsTagTransRate,TransToMeet,MoveX,MoveY)
+        
+    !call DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved,lowlimit,uplimit)
     end if
-    end if 
+
 
   
 
@@ -255,7 +268,7 @@ print*,"5"
 
     end if 
     !call  PrintLog(AtomsAddedInt,AtomsAdded,Temp,t)
-        print"(a,i0,a,i0,a)", "simulation= ",SimuCycle,'  cycle= ',t,'  rendered'
+        !print"(a,i0,a,i0,a)", "simulation= ",SimuCycle,'  cycle= ',t,'  rendered'
     
 
 
@@ -273,9 +286,11 @@ print*,"5"
 
 
     !Add time   
-    t=t+1
+   
 
     goto 10 !end of cycle go back to start
+    end if 
+    t=t+1
     end if
 
     !-------------------end of 1 Simulation--------------------------------
