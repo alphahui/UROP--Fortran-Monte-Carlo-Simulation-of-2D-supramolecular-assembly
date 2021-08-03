@@ -1,6 +1,6 @@
-subroutine GetTransRate(Side,BasePlane,TransRate,AtomsTagTransRate,TotalTrans )
+subroutine GetTransRate(Side,BasePlane,TransRate,AtomsTagTransRate,TotalTrans,NoOfAtoms )
     implicit none
-    integer :: Side,n,i,j,nb,tag,p,q
+    integer :: Side,n,i,j,nb,tag,p,q,NoOfAtoms
     integer, dimension(Side,Side,3) :: BasePlane     
     integer :: ArrayOfX(6)=(/-1,-1,+0,+1,+1,+0/)    !to get x coordinate of neighbour atoms
     integer :: ArrayOfY(6)=(/+0,+1,+1,+0,-1,-1/)    !to get y coordinate of neighbour atoms
@@ -29,7 +29,7 @@ subroutine GetTransRate(Side,BasePlane,TransRate,AtomsTagTransRate,TotalTrans )
                 end do
                 
                 AtomsTagTransRate(tag,1)= nb
-                AtomsTagTransRate(tag,2)= TransRate(nb)
+                AtomsTagTransRate(tag,2)= TransRate(nb)*(7-nb)
                 TotalTrans = TotalTrans+AtomsTagTransRate(tag,2)
                 tag=tag+1
 

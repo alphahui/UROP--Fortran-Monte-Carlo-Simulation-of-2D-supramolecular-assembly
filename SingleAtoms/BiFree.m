@@ -8,8 +8,8 @@ MY=[3^(1/2):3^(1/2):100*3^(1/2)];                                %y-axis
 
 startdata=1
 interval=1
-finaldata=10000000
-fileLocation ='./Simulation_result/Simulation_1'
+finaldata=11
+fileLocation ='./Simulation_result/Simulation_1/'
 % aviname='Brsix.avi';
 
 %read the .txt from the folder

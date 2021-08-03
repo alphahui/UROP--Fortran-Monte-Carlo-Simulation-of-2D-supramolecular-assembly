@@ -1,30 +1,49 @@
-subroutine MakeTransitionNew(BasePlane,Side,AtomsTagTransRate,MoveX,MoveY,TotalTrans  )
+subroutine MakeTransitionNew(BasePlane,Side,AtomsTagTransRate,MoveX,MoveY,TotalTrans,TransToMeet,LocX,LocY,NoOfAtoms)
     implicit none
-    integer :: Side,n,i,j,nb,tag,p,q,MoveX,MoveY,NeigTag
+    integer :: Side,n,i,j,nb,tag,MoveX,MoveY,LocX,LocY,NoOfAtoms
     integer, dimension(Side,Side,3) :: BasePlane 
     real, dimension(NoOfAtoms,2) :: AtomsTagTransRate 
     real :: TotalTrans
     integer :: ArrayOfX(6)=(/-1,-1,+0,+1,+1,+0/)    !to get x coordinate of neighbour atoms
     integer :: ArrayOfY(6)=(/+0,+1,+1,+0,-1,-1/)    !to get y coordinate of neighbour atoms
-    integer :: 
+    real(kind=8) :: TransToMeet
+    
     TotalTrans=TotalTrans-AtomsTagTransRate(BasePlane(MoveX,MoveY,2),3)
-    nb=AtomsTagTransRate(BasePlane(MoveX,MoveY,2),2)
-    NeigTag=1
+    tag= BasePlane(MoveX,MoveY,2)
+    nb=AtomsTagTransRate(tag,1)
 
-    do n=1,6
-        i=ArrayOfX(n)+MoveX
-        j=ArrayOfY(n)+MoveY
-        i=Output(Side,i)
-        j=Output(Side,j)
-        if (nb==6)then
-            if (BasePlane(i,j,1)==0)then
-            end if
+        
+
+    
+        if (nb==7)then
+            LocX=MoveX
+            LocY=MoveY
         else
-            
+            do n=1,6
+                i=ArrayOfX(n)+MoveX
+                j=ArrayOfY(n)+MoveY
+                i=Output(i,Side)
+                j=Output(j,Side)
+               
+                if(BasePlane(i,j,1)==0)then
+                    TransToMeet =TransToMeet - AtomsTagTransRate(tag,2)/(7-nb)
+                     
+                    if(TransToMeet<0)then
+
+                        LocX=i
+                        LocY=j
+                      
+                        goto 100
+
+                    end if
+
+                
+                end if
+
+            end do
         end if
 
 
-    end do
 
 
         contains
@@ -36,4 +55,4 @@ if(x>=1 .and. x<=Side) Output=x
 if(x>Side) Output=x-Side
 
 end function
-    end
+   100 end

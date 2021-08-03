@@ -8,8 +8,8 @@ implicit none
     integer, dimension(Side,Side,3) :: BasePlane                    !initial plane of each time (1:0=empty 1=atom 2: atom tag)
     integer :: i,j,n,nb,LargestIslandSize,OverallLargestIslandSize  !i,j: coordinate of plane n: dummy nb: number of bonding                                                                     !LargestIslandSize: largest island size in 1 simulation OverallLargestIslandSize: LargestIslandSize but after all simulation
     integer :: input,AtomsAddedInt,TotalBonding,TimeMove                     !input :record input, int of number of atoms added
-    integer :: t, SimuCycle, TotSimuCycle,MoveX,MoveY                              !t :cycle passed Simucycle: record current round of simulation  TotSimucycle : record the number of simulation wanted to do 
-    integer :: ScatterIslands,NoOfIsland
+    integer :: t, SimuCycle, TotSimuCycle,MoveX,MoveY,LocX,LocY,Locnb                              !t :cycle passed Simucycle: record current round of simulation  TotSimucycle : record the number of simulation wanted to do 
+    integer :: ScatterIslands,NoOfIsland,dummyt
     real(kind=16) :: Temp                                         !r :to store random number generated Temp : for temperature
     real(kind=8) :: AtomsAdded,AverageLargestIslandSize,AverageNumberOfIsland,AverageNumberOfScatterIsland,r,time,TransToMeet                       
     real(kind=4):: TransRate(7)
@@ -138,13 +138,13 @@ AverageNumberOfScatterIsland=0
  
        
     t=1
-    NextTxtPrinted=1   
+    NextTxtPrinted=0   
     AtomsAdded =0
     Temp=Tc
     AtomsAddedInt=0
     TimeMove=1
-    AtomsMoved=.false.
     time =0
+    dummyt=1
    
     
 write(filename,'(a,i0)') "mkdir Simulation_result\Simulation_",SimuCycle
@@ -176,7 +176,7 @@ print*,"5"
 
    
     10 if (t<= MaxTime) then !determine whether we have passed cycle limit
-        if (time < t) then
+       11 if (time < t) then
     !Calculate transition rate of different number of bonding
  
     !possibility to move
@@ -210,7 +210,8 @@ print*,"5"
             end do
 
             AtomsAddedInt= AtomsAdded
-            call GetTransRate(Side,BasePlane,TransRate,AtomsTagTransRate,TotalTrans )
+            call GetTransRate(Side,BasePlane,TransRate,AtomsTagTransRate,TotalTrans,NoOfAtoms )
+     
         
         else if  (AtomsAddedOverTime == .true.) then  !Atoms added one by one
 
@@ -220,8 +221,8 @@ print*,"5"
 
             end if 
 
-            call GetTransRate(Side,BasePlane,TransRate,AtomsTagTransRate,TotalTrans )
-
+            call GetTransRate(Side,BasePlane,TransRate,AtomsTagTransRate,TotalTrans,NoOfAtoms )
+         
         end if    !done adding all atoms
     end if
     !Get number of bonding of each atom ,total bonding, individual transrate and total transrate
@@ -231,14 +232,33 @@ print*,"5"
     12 call random_number(r)
     if (r<=lowlimit .or. r>=uplimit) goto 12   
     time=time+(log(r))/(-TotalTrans)   
+ 
+
     call random_number(r)
     TransToMeet= r*TotalTrans    
-        
+  
     !do transisiton
     
     if (AtomsAddedInt>0) then
-        call FindAtomToBeMoved(BasePlane,Side,AtomsTagTransRate,TransToMeet,MoveX,MoveY)
+        AtomsMoved=.false.
+        call FindAtomToBeMoved(BasePlane,Side,AtomsTagTransRate,TransToMeet,MoveX,MoveY,NoOfAtoms)
+        call MakeTransitionNew(BasePlane,Side,AtomsTagTransRate,MoveX,MoveY,TotalTrans,TransToMeet,LocX,LocY,NoOfAtoms)
+        call UpdateCurrentLoc(BasePlane,Side,MoveX,MoveY,AtomsTagTransRate,TransRate,TotalTrans,NoOfAtoms)
+        !moving the atom and updating the tag
         
+        BasePlane(MoveX,MoveY,1)=0
+        BasePlane(LocX,LocY,2)=BasePlane(MoveX,MoveY,2)
+        BasePlane(LocX,LocY,1)=1
+        BasePlane(MoveX,MoveY,2)=0
+        TotalTrans= TotalTrans - AtomsTagTransRate(BasePlane(LocX,LocY,2),2)
+        if(MoveX .ne. LocX .and. MoveY .ne. LocY)then
+            AtomsMoved=.true.
+        end if
+
+        call UpdateMoveLoc(BasePlane,Side,LocX,LocY,AtomsTagTransRate,TransRate,TotalTrans,NoOfAtoms,Locnb)
+        AtomsTagTransRate(BasePlane(LocX,LocY,2),2) = TransRate(Locnb)*(7-Locnb)
+        AtomsTagTransRate(BasePlane(LocX,LocY,2),1) = Locnb
+        TotalTrans= TotalTrans + AtomsTagTransRate(BasePlane(LocX,LocY,2),2)
     !call DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved,lowlimit,uplimit)
     end if
 
@@ -252,12 +272,12 @@ print*,"5"
       
     if (t==MaxTime .OR. t == 1) then
 
-        call PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle)
-        call PrintPlaneTXT(Side,BasePlane,filename,t,SimuCycle)
+        !call  PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle,MoveX,MoveY,LocX,LocY,r,TotalTrans,TransToMeet,time)
+        !call PrintPlaneTXT(Side,BasePlane,filename,t,SimuCycle)
     end if
     if (AtomsMoved == .true.) then
 
-        call PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle)
+        call  PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle,MoveX,MoveY,LocX,LocY,r,TotalTrans,TransToMeet,time)
         call PrintPlaneTXT(Side,BasePlane,filename,t,SimuCycle)
            
         TempRecordMovedCycle(TimeMove)= t
@@ -267,20 +287,29 @@ print*,"5"
     end if 
 
     end if 
-    !call  PrintLog(AtomsAddedInt,AtomsAdded,Temp,t)
-        !print"(a,i0,a,i0,a)", "simulation= ",SimuCycle,'  cycle= ',t,'  rendered'
+    call   PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle,MoveX,MoveY,LocX,LocY,r,TotalTrans,TransToMeet,time)
+       
     
-
+    
 
     if (OutputWhenAtomsMoved==.false.) then
     if (t==NextTxtPrinted) then
 
         
-        NextTxtPrinted=NextTxtPrinted+TimeInterval
-        call PrintPlaneTXT(Side,BasePlane,filename,t,SimuCycle)
+        !NextTxtPrinted=NextTxtPrinted+TimeInterval
+        !call PrintPlaneTXT(Side,BasePlane,filename,t,SimuCycle,time)
 
     end if 
     end if
+    
+    if (time > NextTxtPrinted) then
+
+       
+        NextTxtPrinted=NextTxtPrinted + 30
+        call PrintPlaneTXT(Side,BasePlane,filename,t,SimuCycle,time,dummyt)
+        dummyt=dummyt + 1
+       
+    end if 
 
 
 
@@ -290,8 +319,12 @@ print*,"5"
 
     goto 10 !end of cycle go back to start
     end if 
+    print"(a,i0,a,i0,a,f,a)", "simulation= ",SimuCycle,'  cycle= ',t, "time=", time,'  rendered'
     t=t+1
+    
+    goto 11
     end if
+    print*,"final",TotalTrans
 
     !-------------------end of 1 Simulation--------------------------------
     print*, "end of simulation",SimuCycle
@@ -329,5 +362,7 @@ end if
 
 call PrintFinalSizesRawData(OverallLargestIslandSize,FinalIslandSize,NoOfAtoms)
 call PrintFinalSimulationLog(Side,NoOfAtoms,SizeAsIsland,TimeInterval,MaxTime,AtomsAddedPerCycle,TempIncPerCycle,Ed,Eb,Tc,fc,kB,TransRate,OverallLargestIslandSize,AverageLargestIslandSize,TotSimuCycle,AtomsAddedOverTime, TempIncreaseOverTime, OutputWhenAtomsMoved,AverageNumberOfIsland,AverageNumberOfScatterIsland  )
+call GetTransRate(Side,BasePlane,TransRate,AtomsTagTransRate,TotalTrans,NoOfAtoms )
+print*,"actual final",TotalTrans
 
 end 
