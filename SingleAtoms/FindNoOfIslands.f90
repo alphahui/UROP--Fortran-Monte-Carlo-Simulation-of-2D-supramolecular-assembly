@@ -1,7 +1,7 @@
-subroutine FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize,SimuCycle,ScatterIslands,NoOfIsland)
+subroutine FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize,SimuCycle,ScatterIslands,NoOfIsland,HopCount )
     implicit none 
     character(len=100) filename
-    integer :: i,j, p,q,x,y,m,Side,AtomsAddedInt,NoIsland,n,TimesToAdd,TagToAdd,SimuCycle
+    integer :: i,j, p,q,x,y,m,Side,AtomsAddedInt,NoIsland,n,TimesToAdd,TagToAdd,SimuCycle,HopCount 
     integer :: TagToCheck,k,FinalTag,LargestIslandSize,NoOfIsland,SizeAsIsland,ScatterIslands
     integer, dimension(Side,Side,3) :: BasePlane 
     integer, dimension(Side,Side,1) :: IslandTag
@@ -164,7 +164,7 @@ write(filename,"(a,i0,a)") "./Simulation_result/Simulation_",SimuCycle,"/Simulat
 open(900,file=filename)
 write(900,*) "-----Islands Result-----"
 write(900,*) 'Number of Islands=',NoOfIsland,"Largest Island",LargestIslandSize,"Atoms"
-write(900,*) 'Number of Scatter Islands', ScatterIslands
+write(900,*) 'Number of Scatter Islands', ScatterIslands,"Atoms moved ",HopCount, " times"
 
     contains
 function Output(x, Side)

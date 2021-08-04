@@ -1,0 +1,34 @@
+ -----Setting of Simulation-----
+ Side of plane=          60 Total Atoms=         500
+ Atoms are all added at once
+ Initial temperature =   300.000000000000      Diffusion energy=
+  0.600000023841858      Bonding energy=  6.499999761581421E-002
+ Transition rate:
+  8.4996913E-03
+  6.8932161E-04
+  5.5903714E-05
+  4.5337692E-06
+  3.6768691E-07
+  2.9819265E-08
+  2.4183306E-09
+ 
+ -----Cycle Start-----
+ Cycle=           1 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   12.09790       atoms moved            0   times
+ 
+ Cycle=          31 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   7.658068       atoms moved           91   times
+ 
+ Cycle=          61 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   5.457326       atoms moved          157   times
+ 
+ Cycle=          91 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   4.455266       atoms moved          199   times
+ 
+ -----Islands Result-----
+ Number of Islands=           1 Largest Island          11 Atoms
+ Number of Scatter Islands         150 Atoms moved          512  times

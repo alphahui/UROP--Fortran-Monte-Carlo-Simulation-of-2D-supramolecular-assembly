@@ -1,0 +1,102 @@
+ -----Setting of Simulation-----
+ Side of plane=          60 Total Atoms=         500
+ Atoms are all added at once
+ Initial temperature =   300.000000000000      Diffusion energy=
+  0.600000023841858      Bonding energy=  6.499999761581421E-002
+ Transition rate:
+   8.499691    
+  0.6893216    
+  5.5903710E-02
+  4.5337691E-03
+  3.6768691E-04
+  2.9819264E-05
+  2.4183307E-06
+ 
+ -----Cycle Start-----
+ Cycle=           1 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   10360.43     r generated=  0.259623951775969      TransToMeet
+ -0.180073385562537     
+ Atoms Moved=          17          54 Moved to=          18          53
+ 
+ Cycle=          31 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   252.2178     r generated=  0.381216395834178      TransToMeet
+  -3.57384472046277     
+ Atoms Moved=           9          52 Moved to=          10          51
+ 
+ Cycle=          61 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   394.2369     r generated=  0.633748600663910      TransToMeet
+ -0.151269345968785     
+ Atoms Moved=          14          51 Moved to=          15          50
+ 
+ Cycle=          91 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   108.7872     r generated=  0.663891155473304      TransToMeet
+  -8.18840996254222     
+ Atoms Moved=          48          43 Moved to=          48          44
+ 
+ Cycle=         121 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   192.8506     r generated=  0.345738426962758      TransToMeet
+ -0.222435254984603     
+ Atoms Moved=          39          48 Moved to=          39          49
+ 
+ Cycle=         151 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   229.6280     r generated=  0.569766296739752      TransToMeet
+  -2.42889999674355     
+ Atoms Moved=          21           6 Moved to=          21           7
+ 
+ Cycle=         181 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   284.6110     r generated=  0.888214245204910      TransToMeet
+  -4.80189386726414     
+ Atoms Moved=          54          20 Moved to=          54          21
+ 
+ Cycle=         211 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   125.0793     r generated=  0.465242091820378      TransToMeet
+  -6.92777176415245     
+ Atoms Moved=          27           5 Moved to=          27           6
+ 
+ Cycle=         241 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   176.5596     r generated=  0.764944879347603      TransToMeet
+  -5.73999652655669     
+ Atoms Moved=          48          21 Moved to=          47          22
+ 
+ Cycle=         271 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   162.6291     r generated=  0.881217910397574      TransToMeet
+ -0.974700585561465     
+ Atoms Moved=          53          54 Moved to=          54          54
+ 
+ Cycle=         301 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   74.77219     r generated=  0.207521843556015      TransToMeet
+ -3.792403268951361E-003
+ Atoms Moved=          49          11 Moved to=          49          10
+ 
+ Cycle=         331 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   116.1698     r generated=  0.349543498694522      TransToMeet
+  -3.99607525210882     
+ Atoms Moved=          14          55 Moved to=          15          54
+ 
+ Cycle=         361 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   65.06478     r generated=  0.240252590934499      TransToMeet
+  -6.91926739352395     
+ Atoms Moved=          59          36 Moved to=          58          36
+ 
+ Cycle=         391 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   166.7274     r generated=  0.835217171345584      TransToMeet
+  -3.44640428982459     
+ Atoms Moved=          41          37 Moved to=          42          37
+ 
+ -----Islands Result-----
+ Number of Islands=          17 Largest Island          46 Atoms
+ Number of Scatter Islands           5

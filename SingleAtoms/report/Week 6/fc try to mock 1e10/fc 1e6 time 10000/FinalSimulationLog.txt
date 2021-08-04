@@ -1,0 +1,25 @@
+ -----------Basic parameters---------------
+Side= 60  NoOfAtoms= 500  TotSimucycled= 10
+MaxTime= 3900001  TimeInterval= 300000  SizeAsIsland= 10
+ 
+ -----------parameters---------------
+ Ed=  0.600000023841858      Eb=  6.499999761581421E-002
+ Tc=   300.000000000000      fc=   1000000.00000000     
+ kB=  8.625000191386789E-005
+ Transition rate:
+           0 bonding:    8.4996907E-05
+           1 bonding:    6.8932163E-06
+           2 bonding:    5.5903712E-07
+           3 bonding:    4.5337693E-08
+           4 bonding:    3.6768690E-09
+           5 bonding:    2.9819264E-10
+           6 bonding:    2.4183306E-11
+ 
+ -----------settings---------------
+ AtomsAddedOverTime= F   TempIncreaseOverTime= F   OutputWhenAtomsMoved= F
+ AtomsAddedPerCycle=  7.0000000E-02   TempIncPerCycle=  0.5000000    
+ 
+ -----------Results---------------
+AverageLargestIslandSize= 27.300  OverallLargestIslandSize= 35
+AverageNumberOfIsland= 25.900  AverageNumberOfScatterIsland= 23.700
+AvgHopCount= 7041.200

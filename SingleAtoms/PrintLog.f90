@@ -1,8 +1,8 @@
-subroutine PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle,MoveX,MoveY,LocX,LocY,r,TotalTrans,TransToMeet,time)
+subroutine PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle,TotalTrans,HopCount )
     implicit none
     
     character(len=100) filename
-    integer :: SimuCycle,MoveX,MoveY,LocX,LocY                        !coordinate of plane
+    integer :: SimuCycle,HopCount                         !coordinate of plane
     integer :: AtomsAddedInt,t !record input, int of number of atoms added            !cycle passed
     real(kind=16) :: Temp, TimeAdded                    !to store random number generated, simulation time
     real :: AtomsAdded                         !record the atoms added
@@ -13,8 +13,7 @@ subroutine PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle,MoveX,MoveY,LocX,L
     open(900,file=filename)
     write(900,*) "Cycle=", t,"Atoms Added= ", AtomsAddedInt, "System Atoms Added=", AtomsAdded 
     write(900,*) "Temperature=", Temp
-    write(900,*) "TotalTrans=",TotalTrans , "r generated=",r,"TransToMeet",TransToMeet  
-    write(900,*) "Atoms Moved=",MoveX,MoveY,"Moved to=",LocX,LocY
+    write(900,*) "TotalTrans=",TotalTrans,"  atoms moved ",HopCount ,"  times"
     write(900,*)
 
 end

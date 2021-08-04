@@ -6,10 +6,10 @@ clc;clear;
 MX=[1:400];                                                                %x-axis
 MY=[3^(1/2):3^(1/2):100*3^(1/2)];                                %y-axis
 
-startdata=1
+startdata=390
 interval=1
-finaldata=11
-fileLocation ='./Simulation_result/Simulation_1/'
+finaldata=390
+fileLocation ='./Simulation_result/Simulation_2/'
 % aviname='Brsix.avi';
 
 %read the .txt from the folder
