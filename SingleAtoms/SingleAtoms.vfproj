@@ -64,8 +64,5 @@
 		<File RelativePath=".\PrintLog.f90"/>
 		<File RelativePath=".\PrintMoveTimeRawData.f90"/>
 		<File RelativePath=".\PrintPlaneTXT.f90"/>
-		<File RelativePath=".\RecordSimulationData.f90"/>
-		<File RelativePath=".\UpdataCurrentLoc.f90"/>
-		<File RelativePath=".\UpdateMoveLoc.f90"/>
-		<File RelativePath=".\UpNoNeighbourAtoms.f90"/></Filter></Files>
+		<File RelativePath=".\RecordSimulationData.f90"/></Filter></Files>
 	<Globals/></VisualStudioProject>

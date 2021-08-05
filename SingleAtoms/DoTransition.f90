@@ -38,7 +38,7 @@ subroutine DoTransition(BasePlane,TransRate,Side,AtomsAddedInt,AtomsMoved,lowlim
             if (MovedTag(i,j)==0) then
                 if(BasePlane(i,j,1)==1) then
                        
-                    call UpNoNeiAtoms(Side,BasePlane,i,j,TransRate,MovedOrNot,NeigbourLocation,TagLocation,nb,lowlimit,uplimit)   
+                    !call UpNoNeiAtoms(Side,BasePlane,i,j,TransRate,MovedOrNot,NeigbourLocation,TagLocation,nb,lowlimit,uplimit)   
                 !get info on the atoms neigbour number of atoms and space and neigbour trans rate
                     
                     if (MovedOrNot==.true.)then
