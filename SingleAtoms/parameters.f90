@@ -8,11 +8,11 @@ module parameters
 	real, parameter :: AtomsAddedPerCycle =0.07, TempIncPerCycle =0.5  
     !how many time will the time pass
 
-	real(kind=8), parameter::Ed=0.500			!diffusion energy
+	real(kind=8), parameter::Ed=0.470			!diffusion energy
 	real(kind=8), parameter::Eb=0.065			!bonding energy
 	real(kind=8), parameter::Tc=300   			!temp.
 
-    real(kind=8), parameter::fc=1E12		!constant frequency
+    real(kind=8), parameter::fc=1E10		!constant frequency
 	real(kind=8), parameter::kB=8.625E-5		!Boltzmann constant in eV unit
     
     real(kind=8), parameter::lowlimit=1E-12    

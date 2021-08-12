@@ -3,7 +3,7 @@ use parameters
 
 implicit none
 
-    character(len=100)  filename                                      !set file name
+    character(len=200)  filename                                    !set file name
     
     integer, dimension(Side,Side,3) :: BasePlane                    !initial plane of each time (1:0=empty 1=atom 2: atom tag)
     integer :: i,j,n,nb,LargestIslandSize,OverallLargestIslandSize  !i,j: coordinate of plane n: dummy nb: number of bonding                                                                     !LargestIslandSize: largest island size in 1 simulation OverallLargestIslandSize: LargestIslandSize but after all simulation
@@ -21,6 +21,7 @@ implicit none
     integer:: TempRecordMovedCycle(CycleRecord)
     real, dimension(NoOfAtoms,2) :: AtomsTagTransRate                 ! dimension 1: atom tag from BasePlane 2 1: number of bonding 2: trasrate
     real :: TotalTrans
+    
     
     call random_seed 
     
@@ -147,12 +148,12 @@ AverageNumberOfScatterIsland=0
     HopCount =0
  
    
-    
+
 write(filename,'(a,i0)') "mkdir Simulation_result\Simulation_",SimuCycle
 call system(filename)
-print*,"5"
+
     !Basic info of the simulation
-    write(filename,"(a,i0,a)") "./Simulation_result/Simulation_",SimuCycle,"/Simulation.txt"
+    write(filename,"(a,i0,a)") "./Simulation_Result/Simulation_",SimuCycle,"/Simulation.txt"
     open(900,file=filename)
     write(900,*) "-----Setting of Simulation-----"
     write(900,*) "Side of plane=", Side,"Total Atoms=", NoOfAtoms
@@ -262,35 +263,37 @@ print*,"5"
     !------------------output------------------
 
     !create txt
-        
+    !if settings allow output onlu when atoms are moved   
     if (OutputWhenAtomsMoved == .true.) then
       
     if (t==MaxTime .OR. t == 1) then
         if (AtomsMoved == .false.) then
 
-        call PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle,TotalTrans,HopCount )
-        call PrintPlaneTXT(Side,BasePlane,filename,t,SimuCycle)
+        call PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle,TotalTrans,HopCount,MoveX,MoveY,LocX,LocY,OutputWhenAtomsMoved)
+        call PrintPlaneTXT(Side,BasePlane,t,SimuCycle)
 
         end if
     end if
+
     if (AtomsMoved == .true.) then
 
-        call PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle,TotalTrans,HopCount )
-        call PrintPlaneTXT(Side,BasePlane,filename,t,SimuCycle)
+        call PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle,TotalTrans,HopCount,MoveX,MoveY,LocX,LocY,OutputWhenAtomsMoved)
+        call PrintPlaneTXT(Side,BasePlane,t,SimuCycle)
            
         TempRecordMovedCycle(TimeMove)= t
         TimeMove = TimeMove+1
         
     end if 
+
     end if 
-    
+    !if setting have output every n cycle
     if (OutputWhenAtomsMoved==.false.) then
     if (t==NextTxtPrinted) then
 
         
         NextTxtPrinted=NextTxtPrinted+TimeInterval
-        call PrintPlaneTXT(Side,BasePlane,filename,t,SimuCycle)
-        call PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle,TotalTrans,HopCount )
+        call PrintPlaneTXT(Side,BasePlane,t,SimuCycle)
+        call PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle,TotalTrans,HopCount,MoveX,MoveY,LocX,LocY,OutputWhenAtomsMoved)
     end if 
     end if
 
@@ -341,8 +344,8 @@ end if
 
 !------------------ end of all simulation -------------
 
-call PrintFinalSizesRawData(OverallLargestIslandSize,FinalIslandSize,NoOfAtoms)
-call PrintFinalSimulationLog(Side,NoOfAtoms,SizeAsIsland,TimeInterval,MaxTime,AtomsAddedPerCycle,TempIncPerCycle,Ed,Eb,Tc,fc,kB,TransRate,OverallLargestIslandSize,AverageLargestIslandSize,TotSimuCycle,AtomsAddedOverTime, TempIncreaseOverTime, OutputWhenAtomsMoved,AverageNumberOfIsland,AverageNumberOfScatterIsland,AvgHopCount  )
+call PrintFinalSizesRawData(OverallLargestIslandSize,FinalIslandSize,NoOfAtoms,)
+call PrintFinalSimulationLog(Side,NoOfAtoms,SizeAsIsland,TimeInterval,MaxTime,AtomsAddedPerCycle,TempIncPerCycle,Ed,Eb,Tc,fc,kB,TransRate,OverallLargestIslandSize,AverageLargestIslandSize,TotSimuCycle,AtomsAddedOverTime, TempIncreaseOverTime, OutputWhenAtomsMoved,AverageNumberOfIsland,AverageNumberOfScatterIsland,AvgHopCount,)
 
 
 

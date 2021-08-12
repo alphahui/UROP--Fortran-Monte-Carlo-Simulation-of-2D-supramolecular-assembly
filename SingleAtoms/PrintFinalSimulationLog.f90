@@ -1,13 +1,15 @@
-subroutine PrintFinalSimulationLog(Side,NoOfAtoms,SizeAsIsland,TimeInterval,MaxTime,AtomsAddedPerCycle,TempIncPerCycle,Ed,Eb,Tc,fc,kB,TransRate,OverallLargestIslandSize,AverageLargestIslandSize,TotSimuCycle,AtomsAddedOverTime, TempIncreaseOverTime, OutputWhenAtomsMoved,AverageNumberOfIsland,AverageNumberOfScatterIsland,AvgHopCount  )
+subroutine PrintFinalSimulationLog(Side,NoOfAtoms,SizeAsIsland,TimeInterval,MaxTime,AtomsAddedPerCycle,TempIncPerCycle,Ed,Eb,Tc,fc,kB,TransRate,OverallLargestIslandSize,AverageLargestIslandSize,TotSimuCycle,AtomsAddedOverTime, TempIncreaseOverTime, OutputWhenAtomsMoved,AverageNumberOfIsland,AverageNumberOfScatterIsland,AvgHopCount)
     implicit none
+
+    character(len=200) Filename
     integer :: Side,NoOfAtoms,SizeAsIsland,TimeInterval,OverallLargestIslandSize,TotSimuCycle,n, MaxTime
     real :: AtomsAddedPerCycle,TempIncPerCycle
     real(kind=8):: Ed,Eb,Tc,fc,kB,AverageLargestIslandSize,AverageNumberOfIsland,AverageNumberOfScatterIsland,AvgHopCount	
     real(kind=4):: TransRate(7)	
     logical :: AtomsAddedOverTime, TempIncreaseOverTime, OutputWhenAtomsMoved
 
-
-    open(unit=90,file= "./Simulation_result/FinalSimulationLog.txt")
+    write(Filename,fmt="(a)") "./Simulation_Result/FinalSimulationLog.txt"
+    open(unit=90,file= Filename)
     write(90,*)"-----------Basic parameters---------------"
     write(90,fmt="(a,i0,a,i0,a,i0)") "Side= ",Side,"  NoOfAtoms= ",NoOfAtoms,"  TotSimucycled= ",TotSimucycle
     write(90,fmt="(a,i0,a,i0,a,i0)") "MaxTime= ",MaxTime,"  TimeInterval= ", TimeInterval,"  SizeAsIsland= ",SizeAsIsland

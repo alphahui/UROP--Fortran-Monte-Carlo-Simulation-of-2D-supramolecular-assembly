@@ -3,7 +3,7 @@ close all;
 clc
 
 
-document = '.\report\Week 5\simulation\added per cycle\0.1 per cycle\FinalSizesRawData';
+document = './report/Week 7/Change in Ed/ed 0.7/FinalSizesRawData';
 docType='.txt';
 docIn= append(document,docType);
 

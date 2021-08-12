@@ -1,9 +1,10 @@
 subroutine PrintMoveTimeRawData(TempRecordMovedCycle,CycleRecord,t,SimuCycle,TimeMove)
     implicit none
-    
+   
     integer :: t, SimuCycle,j,CycleRecord,TimeMove,n
     integer, dimension(CycleRecord):: TempRecordMovedCycle
-    character(len=100) :: file
+
+    character(len=200) file
     integer,allocatable:: RecordMovedCycle(:)
     integer,allocatable:: RecordMovedIntervalCycle(:)
 
@@ -13,8 +14,8 @@ subroutine PrintMoveTimeRawData(TempRecordMovedCycle,CycleRecord,t,SimuCycle,Tim
     do n=1, TimeMove
         RecordMovedCycle(n)=TempRecordMovedCycle(n)
     end do
-
-    write(file,'(a,i0,a)') "./Simulation_result/Simulation_",SimuCycle,"/CycleAtomsMoved.txt"
+    
+    write(file,'(a,i0,a)') "./Simulation_Result/Simulation_",SimuCycle,"/CycleAtomsMoved.txt"
 
     open(unit=90,file=file)
 
