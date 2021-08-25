@@ -1,0 +1,91 @@
+ -----Setting of Simulation-----
+ Side of plane=          60 Total Atoms=         500
+ Atoms are all added at once
+ Initial temperature =   300.000000000000      Diffusion energy=
+  0.419999986886978      Bonding energy=  6.499999761581421E-002
+ Transition rate:
+   8924.476    
+   723.7714    
+   58.69758    
+   4.760351    
+  0.3860626    
+  3.1309526E-02
+  2.5391902E-03
+ 
+ -----Cycle Start-----
+ Cycle=           1 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=  1.1845784E+07   atoms moved            0   times
+ 
+ Cycle=           4 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   219787.6       atoms moved       159959   times
+ 
+ Cycle=           7 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   221628.8       atoms moved       302874   times
+ 
+ Cycle=          10 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   330091.4       atoms moved       429478   times
+ 
+ Cycle=          13 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   274848.3       atoms moved       559641   times
+ 
+ Cycle=          16 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   166821.3       atoms moved       672888   times
+ 
+ Cycle=          19 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   56142.67       atoms moved       798800   times
+ 
+ Cycle=          22 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   109492.2       atoms moved       915042   times
+ 
+ Cycle=          25 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   59421.84       atoms moved      1027249   times
+ 
+ Cycle=          28 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   108515.9       atoms moved      1150266   times
+ 
+ Cycle=          31 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   108999.9       atoms moved      1263915   times
+ 
+ Cycle=          34 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   107828.7       atoms moved      1382373   times
+ 
+ Cycle=          37 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   216285.3       atoms moved      1486549   times
+ 
+ Cycle=          40 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   109196.8       atoms moved      1602040   times
+ 
+ Cycle=          43 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   55503.93       atoms moved      1705670   times
+ 
+ Cycle=          46 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   8353.227       atoms moved      1807917   times
+ 
+ Cycle=          49 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   55064.37       atoms moved      1922569   times
+ 
+ Cycle=          52 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   108678.9       atoms moved      2019696   times
+ 
+ Cycle=          55 Atoms Added=          500 System Atoms Added=  0.0000000E+00
+ Temperature=   300.000000000000000000000000000000      
+ TotalTrans=   54196.52       atoms moved      2134811   times
+ 

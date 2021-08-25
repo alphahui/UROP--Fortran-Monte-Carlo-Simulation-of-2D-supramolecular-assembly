@@ -1,10 +1,10 @@
-subroutine PrintFinalSimulationLog(Side,NoOfAtoms,SizeAsIsland,TimeInterval,MaxTime,AtomsAddedPerCycle,TempIncPerCycle,Ed,Eb,Tc,fc,kB,TransRate,OverallLargestIslandSize,AverageLargestIslandSize,TotSimuCycle,AtomsAddedOverTime, TempIncreaseOverTime, OutputWhenAtomsMoved,AverageNumberOfIsland,AverageNumberOfScatterIsland,AvgHopCount)
+subroutine PrintFinalSimulationLog(Side,NoOfAtoms,SizeAsIsland,TimeInterval,MaxTime,AtomsAddedPerCycle,TempIncPerCycle,Ed,Eb,Tc,fc,kB,TransRate,OverallLargestIslandSize,AverageLargestIslandSize,TotSimuCycle,AtomsAddedOverTime, TempIncreaseOverTime, OutputWhenAtomsMoved,AverageNumberOfIsland,AverageNumberOfScatterIsland,AvgHopCount,AvgT)
     implicit none
 
     character(len=200) Filename
     integer :: Side,NoOfAtoms,SizeAsIsland,TimeInterval,OverallLargestIslandSize,TotSimuCycle,n, MaxTime
     real :: AtomsAddedPerCycle,TempIncPerCycle
-    real(kind=8):: Ed,Eb,Tc,fc,kB,AverageLargestIslandSize,AverageNumberOfIsland,AverageNumberOfScatterIsland,AvgHopCount	
+    real(kind=8):: Ed,Eb,Tc,fc,kB,AverageLargestIslandSize,AverageNumberOfIsland,AverageNumberOfScatterIsland,AvgHopCount,AvgT	
     real(kind=4):: TransRate(7)	
     logical :: AtomsAddedOverTime, TempIncreaseOverTime, OutputWhenAtomsMoved
 
@@ -30,5 +30,5 @@ subroutine PrintFinalSimulationLog(Side,NoOfAtoms,SizeAsIsland,TimeInterval,MaxT
     write(90,*)"-----------Results---------------"
     write(90,fmt="(a,F0.3,a,i0)")"AverageLargestIslandSize= ",AverageLargestIslandSize,"  OverallLargestIslandSize= ",OverallLargestIslandSize	
     write(90,fmt="(a,F0.3,a,F0.3)")"AverageNumberOfIsland= ",AverageNumberOfIsland,"  AverageNumberOfScatterIsland= ",AverageNumberOfScatterIsland
-    write(90,fmt="(a,F0.3)")"AvgHopCount= ",AvgHopCount
+    write(90,fmt="(a,F0.3,a,F0.3)")"AvgHopCount= ",AvgHopCount,"  AvgT= ",AvgT
     end

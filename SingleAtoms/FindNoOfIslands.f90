@@ -1,4 +1,4 @@
-subroutine FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize,SimuCycle,ScatterIslands,NoOfIsland,HopCount)
+subroutine FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize,SimuCycle,ScatterIslands,NoOfIsland,HopCount,StopAtOptimal)
     implicit none 
  
 
@@ -10,7 +10,7 @@ subroutine FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,
     integer, dimension(AtomsAddedInt) :: IslandSize
     integer :: ArrayOfX(6)=(/-1,-1,+0,+1,+1,+0/)    
     integer :: ArrayOfY(6)=(/+0,+1,+1,+0,-1,-1/) 
-    logical :: IfNeiAtomTagged,IfTagIsEmpty
+    logical :: IfNeiAtomTagged,IfTagIsEmpty,StopAtOptimal
 
     NoIsland = 0
     do i=1,Side
@@ -162,12 +162,14 @@ do n=1, FinalTag
 
 end do
 ScatterIslands = FinalTag-NoOfIsland
+
+if (StopAtOptimal==.false.)then
 write(filename,"(a,i0,a)") "./Simulation_Result/Simulation_",SimuCycle,"/Simulation.txt"
 open(900,file=filename)
 write(900,*) "-----Islands Result-----"
 write(900,*) 'Number of Islands=',NoOfIsland,"Largest Island",LargestIslandSize,"Atoms"
 write(900,*) 'Number of Scatter Islands', ScatterIslands,"Atoms moved ",HopCount, " times"
-
+end if
     contains
 function Output(x, Side)
 integer x,Output,Side

@@ -50,6 +50,7 @@
 		<Filter Name="Source Files" Filter="f90;for;f;fpp;ftn;def;odl;idl">
 		<File RelativePath=".\AddAtoms.f90"/>
 		<File RelativePath=".\DetermineFinalLocToMove.f90"/>
+		<File RelativePath=".\DetermineWhetherStop.f90"/>
 		<File RelativePath=".\DoTransition.f90"/>
 		<File RelativePath=".\FindAtomToBeMoved.f90"/>
 		<File RelativePath=".\FindNoOfIslands.f90"/>

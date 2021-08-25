@@ -7,8 +7,8 @@ MX=[1:400];                                                                %x-ax
 MY=[3^(1/2):3^(1/2):100*3^(1/2)];                                %y-axis
 
 startdata=1
-interval=195
-finaldata=3901
+interval=78
+finaldata=391
 fileLocation ='.\Simulation_result\Simulation_1\'
 % aviname='Brsix.avi';
 

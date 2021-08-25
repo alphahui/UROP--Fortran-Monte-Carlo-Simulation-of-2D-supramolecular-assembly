@@ -11,16 +11,17 @@ implicit none
     integer :: t, SimuCycle, TotSimuCycle,MoveX,MoveY,LocX,LocY,HopCount                              !t :cycle passed Simucycle: record current round of simulation  TotSimucycle : record the number of simulation wanted to do 
     integer :: ScatterIslands,NoOfIsland
     real(kind=16) :: Temp                                         !r :to store random number generated Temp : for temperature
-    real(kind=8) :: AtomsAdded,AverageLargestIslandSize,AverageNumberOfIsland,AverageNumberOfScatterIsland,r,time,TransToMeet,AvgHopCount                        
+    real(kind=8) :: AtomsAdded,AverageLargestIslandSize,AverageNumberOfIsland,AverageNumberOfScatterIsland,r,time,TransToMeet,AvgHopCount,AvgT                        
     real(kind=4):: TransRate(7)
     integer:: NextTxtPrinted                                     !NextTxtPrinted :to get the next cycle which prints the plane
     integer, dimension(NoOfAtoms) :: IslandSize                    !IslandSize: number of islands vary in size for 1 simulation before final process (not all islands are catergorzied)
-    logical :: AtomsMoved                                           !AtomsMoved: record rather atoms are moved in the cycle
+    logical :: AtomsMoved, EndSimulation                                           !AtomsMoved: record rather atoms are moved in the cycle
     integer, dimension(NoOfAtoms) :: IslandSizeData                 !IslandSizeData: proccesed IslandSize Data 
     real, dimension(NoOfAtoms) :: FinalIslandSize                   !FinalIslandSize: IslandSize for all simulation combined
     integer:: TempRecordMovedCycle(CycleRecord)
     real, dimension(NoOfAtoms,2) :: AtomsTagTransRate                 ! dimension 1: atom tag from BasePlane 2 1: number of bonding 2: trasrate
-    real :: TotalTrans
+    real :: TotalTrans, CurrentIslandData(3),PreviousIslandData(3)      !1: island size 2:island number 3:scatter number
+    integer,dimension(MaxTime)::LargestIslandSizeCycle,NumberIslandCycle,NumberScatterCycle
     
     
     call random_seed 
@@ -69,7 +70,7 @@ implicit none
         print*, "please enter a valid value. (1 for yes, 2 for no and atoms will be all added at beginning)"
         goto 400
     end if
-
+!currently not used and not tested
 700 print*, "Do you want result output only when atoms moved? (1 for yes, 2 for no)"
 800 read*, input
     If  (input ==1) then 
@@ -83,18 +84,32 @@ implicit none
 
     print*, "How many simulation do you want to run for this variable?"
     read*, TotSimuCycle
-
+!currently not made
 500 print*, "Do you want the temperature to be increased by",TempIncPerCycle ,"per cycle,which can be edited in parameters.F90? (1 for yes, 2 for no and the temperature will be", Tc,")"
 600 read*,  input
     If  (input ==1) then 
         TempIncreaseOverTime=.true. 
-        goto 100
+        
     else if (input ==2) then
         TempIncreaseOverTime=.false.
-        goto 100
+        
     else
         print*, "please enter a valid value. (1 for yes, 2 for no and the temperature will be", Tc,")"
         goto 600
+    end if  
+
+501 print*,"Do you want the simulations to be stopped when there is little change?(1 for yes, 2 for no)"
+    print*, "(The percentage difference can be changed in parameters.f90)"
+502 read*, input
+    If  (input ==1) then 
+        StopAtOptimal=.true. 
+        goto 100
+    else if (input ==2) then
+        StopAtOptimal=.false.
+        goto 100
+    else
+        print*, "please enter a valid value. (1 for yes, 2 for no and the temperature will be", Tc,")"
+        goto 502
     end if  
 
     
@@ -136,8 +151,15 @@ AverageNumberOfScatterIsland=0
         TransRate(nb)=fc*exp(-(Ed+(nb-1)*Eb)/(kB*Tc))
         print*,TransRate(nb)
     end do 
- 
-       
+    do n=1,3
+        CurrentIslandData(n)=0
+        PreviousIslandData(n)=0 
+    end do
+    do n=1,MaxTime
+        LargestIslandSizeCycle(n)=0
+        NumberIslandCycle(n)=0
+        NumberScatterCycle(n)=0
+    end do
     t=1
     NextTxtPrinted=1   
     AtomsAdded =0
@@ -146,7 +168,8 @@ AverageNumberOfScatterIsland=0
     TimeMove=1
     time =0
     HopCount =0
- 
+    EndSimulation=.false.
+
    
 
 write(filename,'(a,i0)') "mkdir Simulation_result\Simulation_",SimuCycle
@@ -178,11 +201,36 @@ call system(filename)
 
    
     10 if (t<= MaxTime) then !determine whether we have passed cycle limit
-       11 if (time < t) then
-    !Calculate transition rate of different number of bonding
- 
-    !possibility to move
-    !Add Atoms  
+        !---------------start of cycle t--------------------------
+        if (StopAtOptimal==.true.)then
+            if (t==NextTxtPrinted) then
+
+                call FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize,SimuCycle,ScatterIslands,NoOfIsland,HopCount,StopAtOptimal)
+                LargestIslandSizeCycle(t)=LargestIslandSize
+                NumberIslandCycle(t)=NoOfIsland
+                NumberScatterCycle(t)=ScatterIslands
+
+                if (t .ne. 1)then
+                    EndSimulation =.false.
+                    CurrentIslandData(1)=LargestIslandSize
+                    CurrentIslandData(2)=NoOfIsland
+                    CurrentIslandData(3)=ScatterIslands
+                    call DetermineWhetherStop(CurrentIslandData,PreviousIslandData,PercentageIslandSize,PercentageIslandNumber,PercentageScatterNumber,EndSimulation)
+                    if (EndSimulation==.true.) then
+                        print*,"percentage difference greater than set"
+                        t=t-1
+                        call PrintPlaneTXT(Side,BasePlane,t,SimuCycle)
+                        goto 120 !end of simulation
+                    end if
+                end if
+
+                PreviousIslandData(1)=LargestIslandSize
+                PreviousIslandData(2)=NoOfIsland
+                PreviousIslandData(3)=ScatterIslands
+            end if
+        end if
+
+         !Add Atoms  
     if (AtomsAddedInt < NoOfAtoms) then
         if  (AtomsAddedOverTime == .false.) then    !setting for atoms to all be added at once
         !add the molecules to the BasePlane and ResultPlane all at once
@@ -226,7 +274,9 @@ call system(filename)
          
         end if    !done adding all atoms
     end if
-    !Get number of bonding of each atom ,total bonding, individual transrate and total transrate
+
+    11 if (time < t) then
+    !----------------start of time inside cycle t-------------------------
 
 
     !Get the time to start the transition
@@ -263,6 +313,8 @@ call system(filename)
     !------------------output------------------
 
     !create txt
+
+    !------------------currently not used and not tested------------------
     !if settings allow output onlu when atoms are moved   
     if (OutputWhenAtomsMoved == .true.) then
       
@@ -286,11 +338,13 @@ call system(filename)
     end if 
 
     end if 
+    !------------------------------------------------------------------
+
+    !currently used to output text
     !if setting have output every n cycle
     if (OutputWhenAtomsMoved==.false.) then
     if (t==NextTxtPrinted) then
 
-        
         NextTxtPrinted=NextTxtPrinted+TimeInterval
         call PrintPlaneTXT(Side,BasePlane,t,SimuCycle)
         call PrintLog(AtomsAddedInt,AtomsAdded,Temp,t,SimuCycle,TotalTrans,HopCount,MoveX,MoveY,LocX,LocY,OutputWhenAtomsMoved)
@@ -304,16 +358,16 @@ call system(filename)
 
     print"(a,i0,a,i0,a,f,a)", "simulation= ",SimuCycle,'  cycle= ',t, "time=", time,'  rendered'
     t=t+1
-    goto 11
+    goto 10
 
     end if
     
 
     !-------------------end of 1 Simulation--------------------------------
-    print*, "end of simulation",SimuCycle
+   120 print*, "end of simulation",SimuCycle
 
-    call FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize,SimuCycle,ScatterIslands,NoOfIsland,HopCount)
-    call PrintIslandSizeTXT(AtomsAddedInt,IslandSize,LargestIslandSize,IslandSizeData,NoOfAtoms,TotSimuCycle,SimuCycle)
+    call FindNoOfIslands(Side,BasePlane,AtomsAddedInt,SizeAsIsland,IslandSize,LargestIslandSize,SimuCycle,ScatterIslands,NoOfIsland,HopCount,StopAtOptimal)
+    call PrintIslandSizeTXT(AtomsAddedInt,IslandSize,LargestIslandSize,IslandSizeData,NoOfAtoms,TotSimuCycle,SimuCycle,TimeInterval,LargestIslandSizeCycle,NumberIslandCycle,NumberScatterCycle,MaxTime,t)
     call RecordSimulationData(LargestIslandSize,IslandSizeData,NoOfAtoms,SimuCycle,FinalIslandSize)
     
     if(OutputWhenAtomsMoved==.true.) then
@@ -335,6 +389,7 @@ call system(filename)
     AverageNumberOfIsland=(NoOfIsland+AverageNumberOfIsland*(SimuCycle-1))/SimuCycle
     AverageNumberOfScatterIsland=(ScatterIslands+AverageNumberOfScatterIsland*(SimuCycle-1))/SimuCycle
     AvgHopCount = (HopCount+AvgHopCount*(SimuCycle-1))/SimuCycle
+    AvgT=(t+AvgT*(SimuCycle-1))/SimuCycle  
     SimuCycle = SimuCycle +1
 
 
@@ -345,7 +400,7 @@ end if
 !------------------ end of all simulation -------------
 
 call PrintFinalSizesRawData(OverallLargestIslandSize,FinalIslandSize,NoOfAtoms,)
-call PrintFinalSimulationLog(Side,NoOfAtoms,SizeAsIsland,TimeInterval,MaxTime,AtomsAddedPerCycle,TempIncPerCycle,Ed,Eb,Tc,fc,kB,TransRate,OverallLargestIslandSize,AverageLargestIslandSize,TotSimuCycle,AtomsAddedOverTime, TempIncreaseOverTime, OutputWhenAtomsMoved,AverageNumberOfIsland,AverageNumberOfScatterIsland,AvgHopCount,)
+call PrintFinalSimulationLog(Side,NoOfAtoms,SizeAsIsland,TimeInterval,MaxTime,AtomsAddedPerCycle,TempIncPerCycle,Ed,Eb,Tc,fc,kB,TransRate,OverallLargestIslandSize,AverageLargestIslandSize,TotSimuCycle,AtomsAddedOverTime, TempIncreaseOverTime, OutputWhenAtomsMoved,AverageNumberOfIsland,AverageNumberOfScatterIsland,AvgHopCount,AvgT)
 
 
 
